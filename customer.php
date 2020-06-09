@@ -133,7 +133,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+            <button class="btn btn-primary" type="submit" name="submit" id="button">Submit</button>
             <br>
             <span class="text-success">  
                      <?php  
@@ -144,9 +144,48 @@
                      ?>  
             </span>
           </form>
-          
-          
+          <br>
+          <!-- Bidding information -->
+          <h5 id="setDate">
+            <?php
+                $con=mysqli_connect("localhost","root","","chaiya");
+                $query="SELECT time FROM timer WHERE id=3 ";
+                $search_result=mysqli_query($con,$query); 
+            ?>
+            <?php while($row=mysqli_fetch_array($search_result)):?>
+                <?php echo"Bid Ends at : ". $row['time'];?></td>
+            <?php endwhile;?>
+          </h5>
+          <h5 id="demo"></h5>
+          <!-- Bidding information End-->
     </div>
+
+    <div class="jumbotron">
+    <h1>Bidders</h1>
+    <table class="table table-hover"id="userTbl">
+            <?php
+                $con=mysqli_connect("localhost","root","","chaiya");
+                $query="SELECT * FROM customer ORDER BY amount ASC; ";
+                $search_result=mysqli_query($con,$query); 
+            ?>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Amount</th>
+            <tr>
+            <tbody>
+                <?php while($row=mysqli_fetch_array($search_result)):?>
+                    <tr>
+                        <td><?php echo $row['fname'];?></td>
+                        <td><?php echo $row['lname'];?></td>
+                        <td><?php echo $row['amount'];?></td>
+                    </tr>
+                <?php endwhile;?>
+            </tbody>
+        </table>
+    </div>
+
+
     </main>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
@@ -170,5 +209,37 @@
           }, false);
         })();
     </script>
+
+    <script>
+            // Set the date we're counting down to
+            var setDate = document.getElementById("setDate").innerHTML;
+            var countDownDate = new Date(setDate).getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML ="Time Remaining : "+ days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "The Bid has ended";
+                document.getElementById("button").disabled = true;
+            }
+            }, 1000);
+        </script>
 </body>
 </html>

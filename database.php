@@ -36,7 +36,7 @@
            	{  
                 echo mysqli_error($this->con);  
            	} 
-	 }
+	}
 	 public function deleteBid($table_name, $id){
 		$sql = "DELETE FROM ".$table_name." WHERE id=".$id."";
 			if(mysqli_query($this->con, $sql))  
@@ -47,6 +47,17 @@
            	{  
                 echo mysqli_error($this->con);  
            	}
-	 } 
+     }
+     public function updateTime($table_name, $tm, $id){
+          $sql = "Update ".$table_name." SET time='$tm' WHERE id = 3";
+          if(mysqli_query($this->con, $sql))  
+           {  
+           return true;  
+           }  
+           else  
+           {  
+           echo mysqli_error($this->con);  
+           } 
+} 
  }  
  ?>
